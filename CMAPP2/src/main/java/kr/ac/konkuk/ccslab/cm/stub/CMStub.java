@@ -1,44 +1,24 @@
 package kr.ac.konkuk.ccslab.cm.stub;
-import java.util.*;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.ScheduledExecutorService;
 
-import kr.ac.konkuk.ccslab.cm.entity.CMChannelInfo;
-import kr.ac.konkuk.ccslab.cm.entity.CMGroup;
-import kr.ac.konkuk.ccslab.cm.entity.CMMember;
-import kr.ac.konkuk.ccslab.cm.entity.CMServer;
-import kr.ac.konkuk.ccslab.cm.entity.CMSession;
-import kr.ac.konkuk.ccslab.cm.entity.CMUser;
+import kr.ac.konkuk.ccslab.cm.entity.*;
 import kr.ac.konkuk.ccslab.cm.event.*;
 import kr.ac.konkuk.ccslab.cm.event.handler.CMAppEventHandler;
 import kr.ac.konkuk.ccslab.cm.event.handler.CMEventHandler;
 import kr.ac.konkuk.ccslab.cm.event.handler.CMFileSyncEventHandler;
 import kr.ac.konkuk.ccslab.cm.event.handler.CMMqttEventHandler;
-import kr.ac.konkuk.ccslab.cm.info.CMCommInfo;
-import kr.ac.konkuk.ccslab.cm.info.CMConfigurationInfo;
-import kr.ac.konkuk.ccslab.cm.info.CMEventInfo;
-import kr.ac.konkuk.ccslab.cm.info.CMFileTransferInfo;
-import kr.ac.konkuk.ccslab.cm.info.CMInfo;
-import kr.ac.konkuk.ccslab.cm.info.CMInteractionInfo;
-import kr.ac.konkuk.ccslab.cm.info.CMThreadInfo;
+import kr.ac.konkuk.ccslab.cm.info.*;
 import kr.ac.konkuk.ccslab.cm.manager.*;
-import kr.ac.konkuk.ccslab.cm.thread.CMByteReceiver;
-import kr.ac.konkuk.ccslab.cm.thread.CMByteSender;
-import kr.ac.konkuk.ccslab.cm.thread.CMEventReceiver;
 import kr.ac.konkuk.ccslab.cm.thread.CMOpenChannelTask;
 import kr.ac.konkuk.ccslab.cm.thread.CMRemoveChannelTask;
 
-import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.*;
-import java.nio.charset.Charset;
 import java.nio.file.Path;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.concurrent.*;
 
 /**
  * This class provides CM APIs of the common communication services that can be called by both the server and the client 
@@ -47,8 +27,8 @@ import java.nio.file.Path;
  * Application developers should generate an instance of the two sub-classes instead of the CMStub class.
  * 
  * @author CCSLab, Konkuk University
- * @see CMClientStub
- * @see CMServerStub
+ * @see kr.ac.konkuk.ccslab.cm.stub.CMClientStub
+ * @see kr.ac.konkuk.ccslab.cm.stub.CMServerStub
  */
 public class CMStub {
 	protected CMInfo m_cmInfo;
@@ -1028,9 +1008,9 @@ public class CMStub {
 	 * When an application calls the receive method, the application blocks its execution until it receives a CM event 
 	 * through the channel parameter. When an event is received, the method returns the event and the application resumes 
 	 * its execution. 
-	 * <br> Only a client can add a blocking socket channel with {@link CMClientStub#addBlockSocketChannel(int, String)} method.
+	 * <br> Only a client can add a blocking socket channel with {@link kr.ac.konkuk.ccslab.cm.stub.CMClientStub#addBlockSocketChannel(int, String)} method.
 	 * Furthermore, an application can retrieve its blocking socket channels with 
-	 * {@link CMClientStub#getBlockSocketChannel(int, String)} method.  
+	 * {@link kr.ac.konkuk.ccslab.cm.stub.CMClientStub#getBlockSocketChannel(int, String)} method.
 	 * 
 	 * @param sc - the blocking socket channel through which the caller receives an event.
 	 * @return a CM event if this method successfully receives, or null otherwise.
@@ -1986,8 +1966,8 @@ public class CMStub {
 	 * Gets the default file path for file transfer.
 	 * 
 	 * @return the default file path for file transfer
-	 * @see CMClientStub#setTransferedFileHome(Path)
-	 * @see CMServerStub#setTransferedFileHome(Path)
+	 * @see kr.ac.konkuk.ccslab.cm.stub.CMClientStub#setTransferedFileHome(Path)
+	 * @see kr.ac.konkuk.ccslab.cm.stub.CMServerStub#setTransferedFileHome(Path)
 	 */
 	public Path getTransferedFileHome()
 	{
@@ -2113,10 +2093,6 @@ public class CMStub {
 		bReturn = pushFile(strFilePath, strFileReceiver, CMInfo.FILE_DEFAULT);		
 		return bReturn;
 	}
-	void setFilePath(String strFilePath){
-
-	}
-
 	
 	/**
 	 * Sends a file to a receiver (push mode).
@@ -2291,7 +2267,7 @@ public class CMStub {
 	 * gets the string representation of current channels information.
 	 * 
 	 * <p> This method in the CMStub class gets only the blocking/non-blocking datagram channel information.
-	 * The {@link CMClientStub#getCurrentChannelInfo()} and {@link CMServerStub#getCurrentChannelInfo()} 
+	 * The {@link kr.ac.konkuk.ccslab.cm.stub.CMClientStub#getCurrentChannelInfo()} and {@link kr.ac.konkuk.ccslab.cm.stub.CMServerStub#getCurrentChannelInfo()}
 	 * methods get the current blocking/non-blocking socket channel information as well as the datagram channels.
 	 * 
 	 * @return string of current channels information if successful, or null otherwise.
